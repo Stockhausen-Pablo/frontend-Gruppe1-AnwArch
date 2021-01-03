@@ -19,8 +19,8 @@ class HomePage extends React.Component {
     render() {
         const { user, users } = this.props;
         return (
-            <div>
-                <NavBar/>
+            <div className="container">
+                <NavBar loggedinAs={user.user_name}/>
                 <h1>Hi {user.user_name}!</h1>
                 <p>You're logged in with React!!</p>
                 <h3>All registered users:</h3>
