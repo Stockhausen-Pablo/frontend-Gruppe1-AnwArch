@@ -3,13 +3,17 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: 'development',
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.css']
     },
     module: {
         rules: [
             {
                 test: /\.jsx?$/,
                 loader: 'babel-loader'
+            },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"]
             }
         ]
     },
@@ -17,6 +21,7 @@ module.exports = {
         template: './src/index.html'
     })],
     devServer: {
+        port: 4000,
         historyApiFallback: true
     },
     externals: {
