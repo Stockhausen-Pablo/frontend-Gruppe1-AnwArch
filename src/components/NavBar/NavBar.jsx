@@ -15,7 +15,7 @@ const NavBar = (props) => {
                     height="40"
                     className="d-inline-block align-top"
                     alt="home logo"
-                />
+                />HOME
             </Navbar.Brand>
             <Navbar.Brand href="/">Signed in as: <a href="">{props.loggedinAs}</a></Navbar.Brand>
             <Navbar.Collapse>

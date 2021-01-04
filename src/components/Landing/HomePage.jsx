@@ -6,6 +6,7 @@ import { userActions } from '../../actions';
 import { categoryActions } from '../../actions';
 
 import NavBar from '../NavBar/NavBar';
+import CategoryCard from '../CategoryCard/CategoryCard';
 
 class HomePage extends React.Component {
 
@@ -29,7 +30,8 @@ class HomePage extends React.Component {
                 <ul>
                     {categories.items.map((category, index) =>
                         <li key={category.cat_id}>
-                            {category.cat_name}
+                            <p/>
+                            <CategoryCard categoryName={category.cat_name} categoryDescription={category.cat_description}/>
                         </li>
                     )}
                 </ul>
