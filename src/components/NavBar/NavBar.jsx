@@ -7,12 +7,14 @@ import home from './zuhause.svg';
 
 const NavBar = (props) => {
     return(
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar collapseOnSelect bg="dark" expand="lg">
             <Navbar.Brand href="/home">
                 <img
                     src={home}
-                    width="30"
-                    height="30"
+                    width="40"
+                    height="40"
+                    className="d-inline-block align-top"
+                    alt="home logo"
                 />
             </Navbar.Brand>
             <Navbar.Brand href="/">Signed in as: <a href="">{props.loggedinAs}</a></Navbar.Brand>

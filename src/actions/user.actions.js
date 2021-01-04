@@ -62,6 +62,7 @@ function register(user) {
 }
 
 function getAll() {
+
     return dispatch => {
         dispatch(request());
 

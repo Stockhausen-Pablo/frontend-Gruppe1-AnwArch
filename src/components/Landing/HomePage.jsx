@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../../actions';
+import { categoryActions } from '../../actions';
 
 import NavBar from '../NavBar/NavBar';
 
@@ -10,53 +11,44 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         this.props.getUsers();
-    }
-
-    handleDeleteUser(id) {
-        return (e) => this.props.deleteUser(id);
+        this.props.getCategories();
     }
 
     render() {
+        const { categories } = this.props;
         const { user, users } = this.props;
+        console.log(categories);
         return (
             <div className="container">
                 <NavBar loggedinAs={user.user_name}/>
-                <h1>Hi {user.user_name}!</h1>
-                <p>You're logged in with React!!</p>
-                <h3>All registered users:</h3>
-                {users.loading && <em>Loading users...</em>}
-                {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-                {users.items &&
+                <h1>Gruppe 1 - Webforum {} </h1>
+                <h3>Categories:</h3>
+                {categories.loading && <em>Loading categories...</em>}
+                {categories.error && <span className="text-danger">ERROR: {categories.error}</span>}
+                {categories.items &&
                 <ul>
-                    {users.items.map((user, index) =>
-                        <li key={user.user_id}>
-                            {user.user_name + ' ' + user.user_email}
-                            {
-                                user.deleting ? <em> - Deleting...</em>
-                                    : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                    : <span> - <a onClick={this.handleDeleteUser(user.user_id)}>Delete</a></span>
-                            }
+                    {categories.items.map((category, index) =>
+                        <li key={category.cat_id}>
+                            {category.cat_name}
                         </li>
                     )}
                 </ul>
                 }
-                <p>
-                    <Link to="/login">Logout</Link>
-                </p>
             </div>
         );
     }
 }
 
 function mapState(state) {
+    const {categories } = state;
     const { users, authentication } = state;
-    const { user } = authentication;
-    return { user, users };
+    const { user, } = authentication;
+    return { user, users, categories};
 }
 
 const actionCreators = {
     getUsers: userActions.getAll,
-    deleteUser: userActions.delete
+    getCategories: categoryActions.getAll
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
