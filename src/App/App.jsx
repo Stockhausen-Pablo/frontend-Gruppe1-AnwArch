@@ -11,6 +11,7 @@ import { HomePage } from '../components/Landing/HomePage';
 import {OverviewUsers} from "../components/OverviewUsers/OverviewUsers";
 import { LoginPage } from '../components/UserIdentity/LoginPage';
 import { RegisterPage } from '../components/UserIdentity/RegisterPage';
+import { KeyboardPage } from '../components/Topics/Keyboards/KeyboardPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class App extends React.Component {
                             <Switch>
                                 <PrivateRoute exact path="/" component={HomePage} />
                                 <PrivateRoute exact path="/overview" component={OverviewUsers} />
+                                <PrivateRoute exact path="/Keyboards" component={KeyboardPage} />
                                 <Route path="/login" component={LoginPage} />
                                 <Route path="/register" component={RegisterPage} />
                                 <Redirect from="*" to="/" />

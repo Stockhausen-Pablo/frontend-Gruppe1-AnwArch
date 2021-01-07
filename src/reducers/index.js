@@ -4,6 +4,7 @@ import { authentication } from './authentication.reducer';
 import { registration } from './registration.reducer';
 import { users } from './users.reducer';
 import { categories } from './categories.reducer';
+import { topics } from './topics.reducer';
 import { alert } from './alert.reducer';
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     registration,
     users,
     categories,
+    topics,
     alert
 });
 

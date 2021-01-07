@@ -6,7 +6,7 @@ import { userActions } from '../../actions';
 import { categoryActions } from '../../actions';
 
 import NavBar from '../NavBar/NavBar';
-import CategoryCard from '../CategoryCard/CategoryCard';
+import CategoryCard from '../ContentCard/CategoryCard/CategoryCard';
 
 class HomePage extends React.Component {
 
@@ -18,20 +18,22 @@ class HomePage extends React.Component {
     render() {
         const { categories } = this.props;
         const { user, users } = this.props;
-        console.log(categories);
+
         return (
             <div className="container">
                 <NavBar loggedinAs={user.user_name}/>
-                <h1>Gruppe 1 - Webforum {} </h1>
+                <h1>Gruppe 1 - Webforum</h1>
                 <h3>Categories:</h3>
                 {categories.loading && <em>Loading categories...</em>}
                 {categories.error && <span className="text-danger">ERROR: {categories.error}</span>}
                 {categories.items &&
-                <ul>
+                <ul type='none'>
                     {categories.items.map((category, index) =>
                         <li key={category.cat_id}>
                             <p/>
+                            <a href={"/" + category.cat_name} style={{ textDecoration: 'none' }}>
                             <CategoryCard categoryName={category.cat_name} categoryDescription={category.cat_description}/>
+                            </a>
                         </li>
                     )}
                 </ul>
