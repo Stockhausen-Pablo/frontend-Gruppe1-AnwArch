@@ -36,7 +36,7 @@ function register(topic) {
         body: JSON.stringify(topic)
     };
 
-    return fetch(`${config.apiUrl}/topics`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/topics/register`, requestOptions).then(handleResponse);
 }
 
 function _delete(id) {

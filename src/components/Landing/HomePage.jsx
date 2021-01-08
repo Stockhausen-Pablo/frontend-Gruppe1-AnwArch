@@ -31,7 +31,7 @@ class HomePage extends React.Component {
                     {categories.items.map((category, index) =>
                         <li key={category.cat_id}>
                             <p/>
-                            <a href={"/" + category.cat_name} style={{ textDecoration: 'none' }}>
+                            <a href={"/categories?cat_id=" + category.cat_id} style={{ textDecoration: 'none' }}>
                             <CategoryCard categoryName={category.cat_name} categoryDescription={category.cat_description}/>
                             </a>
                         </li>

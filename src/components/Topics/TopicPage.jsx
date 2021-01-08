@@ -1,17 +1,16 @@
 import React, {useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {topicActions, userActions} from '../../../actions';
+import {topicActions, userActions} from '../../actions';
 
-import NavBar from '../../NavBar/NavBar';
-import TopicCard from "../../ContentCard/TopicCard/TopicCard";
+import NavBar from '../NavBar/NavBar';
+import TopicCard from "../ContentCard/TopicCard/TopicCard";
 
-import userSelector from '../../../helpers/userSelector';
-import { useSelector } from 'react-redux'
+import queryString from 'query-string';
 
-class KeyboardPage extends React.Component {
+
+class TopicPage extends React.Component {
 
     constructor(props) {
         super(props)
@@ -21,8 +20,10 @@ class KeyboardPage extends React.Component {
     }
 
     componentDidMount() {
+        const value=queryString.parse(this.props.location.search);
+        const cat_id=value.cat_id;
         this.props.getUsers();
-        this.props.getTopics(2);
+        this.props.getTopics(cat_id);
     }
 
 
@@ -37,7 +38,7 @@ class KeyboardPage extends React.Component {
                 <h1>Gruppe 1 - Webforum</h1>
                 <h3>Topics :
                     <a>
-                        <Button variant="danger" style={{float: 'right'}}>
+                        <Button variant="danger" style={{float: 'right'}} onClick={() => {this.props.history.push('/create-Topic')}}>
                             Create Topic
                         </Button>
                     </a>
@@ -49,7 +50,7 @@ class KeyboardPage extends React.Component {
                     {topics.items.map((topic, index) =>
                         <li key={topic.topic_id}>
                             <p/>
-                            <a href={"/keyboards/" + topic.topic_id} style={{ textDecoration: 'none' }}>
+                            <a href={"/categories/" + topic.topic_id} style={{ textDecoration: 'none' }}>
                                 <TopicCard topicSubject={topic.topic_subject} topicDate={topic.topic_date} topicBy={users.items.filter(user => user.user_id === topic.topic_by)[0].user_name}/>
                             </a>
                         </li>
@@ -75,5 +76,5 @@ const actionCreators = {
     getTopics: topicActions.getAllbyID
 }
 
-const connectedKeyboardPage = connect(mapState, actionCreators)(KeyboardPage);
-export { connectedKeyboardPage as KeyboardPage };
+const connectedTopicPage = connect(mapState, actionCreators)(TopicPage);
+export { connectedTopicPage as TopicPage };
