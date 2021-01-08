@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
-import {topicActions, userActions} from '../../../actions';
+import {topicActions, postActions} from '../../../actions';
+
 import queryString from "query-string";
 
 class CreateTopicPage extends React.Component {
 
     constructor(props) {
+
         super(props);
 
         let loggedin_user = JSON.parse(localStorage.getItem('user'));
@@ -23,24 +25,17 @@ class CreateTopicPage extends React.Component {
                 topic_subject: '',
                 topic_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 topic_cat: cat_id,
-                topic_by: loggedin_user.user_id
-            },
-            user: {
-                post_content: '',
-                post_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
-                post_topic: '',
-                post_by: loggedin_user.user_id,
-                post_first: true
+                topic_by: loggedin_user.user_id,
+                topic_content:''
             },
             submitted: false
         };
 
-        this.handleChangeTopic = this.handleChangeTopic.bind(this);
-        this.handleChangePost = this.handleChangePost.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChangeTopic(event) {
+    handleChange(event) {
         const { name, value } = event.target;
         const { topic } = this.state;
         this.setState({
@@ -51,24 +46,12 @@ class CreateTopicPage extends React.Component {
         });
     }
 
-    handleChangePost(event) {
-        const { name, value } = event.target;
-        const { post } = this.state;
-        this.setState({
-            post: {
-                ...post,
-                [name]: value
-            }
-        });
-    }
-
     handleSubmit(event) {
         event.preventDefault();
 
         this.setState({ submitted: true });
         const { topic } = this.state;
-        const { post } = this.state;
-        if (topic.topic_subject && post.post_content) {
+        if (topic.topic_subject) {
             this.props.topic_register(topic);
         }
     }
@@ -76,7 +59,7 @@ class CreateTopicPage extends React.Component {
     render() {
 
         const { registering  } = this.props;
-        const { topic, post , submitted } = this.state;
+        const { topic, submitted } = this.state;
 
         return (
             <div className="col-md-6 col-md-offset-3">
@@ -84,16 +67,17 @@ class CreateTopicPage extends React.Component {
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !topic.topic_subject ? ' has-error' : '')}>
                         <label htmlFor="topic_subject">Topic Subject</label>
-                        <input type="text" className="form-control" name="topic_subject" value={topic.topic_subject} onChange={this.handleChangeTopic} />
+                        <input type="text" className="form-control" name="topic_subject" value={topic.topic_subject} onChange={this.handleChange} />
                         {submitted && !topic.topic_subject &&
                         <div className="help-block">topic subject is required</div>
                         }
                     </div>
-                    <div className={'form-group' + (submitted && !post.post_content ? ' has-error' : '')}>
-                        <label htmlFor="post_content">Post Content</label>
-                        <TextField id="post_content" multiline rows={6} variant="filled" name="post_content"/>
-                        {submitted && !post.post_content &&
-                        <div className="help-block">post content is required</div>
+                    <div className={'form-group' + (submitted && !topic.topic_content ? ' has-error' : '')}>
+                        <label htmlFor="topic_content">Topic Content</label>
+                        <TextField id="topic_content" multiline rows={10} variant="filled" name="topic_content" value={topic.topic_content} onChange={this.handleChange} style ={{width: '100%'}}
+                                   />
+                        {submitted && !topic.topic_content &&
+                        <div className="help-block">topic content is required</div>
                         }
                     </div>
                     <div className="form-group">
