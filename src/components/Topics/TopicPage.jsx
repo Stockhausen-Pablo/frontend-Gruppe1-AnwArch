@@ -22,6 +22,7 @@ class TopicPage extends React.Component {
     componentDidMount() {
         const value=queryString.parse(this.props.location.search);
         const cat_id=value.cat_id;
+        this.cT_cat_id = cat_id;
         this.props.getUsers();
         this.props.getTopics(cat_id);
     }
@@ -38,7 +39,7 @@ class TopicPage extends React.Component {
                 <h1>Gruppe 1 - Webforum</h1>
                 <h3>Topics :
                     <a>
-                        <Button variant="danger" style={{float: 'right'}} onClick={() => {this.props.history.push('/create-Topic')}}>
+                        <Button variant="danger" style={{float: 'right'}} onClick={() => {this.props.history.push('/create-Topic?cat_id='+this.cT_cat_id)}}>
                             Create Topic
                         </Button>
                     </a>
