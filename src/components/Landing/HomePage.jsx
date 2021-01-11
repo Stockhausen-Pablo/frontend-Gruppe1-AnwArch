@@ -46,7 +46,7 @@ class HomePage extends React.Component {
 function mapState(state) {
     const {categories } = state;
     const { users, authentication } = state;
-    const { user, } = authentication;
+    const { user } = authentication;
     return { user, users, categories};
 }
 

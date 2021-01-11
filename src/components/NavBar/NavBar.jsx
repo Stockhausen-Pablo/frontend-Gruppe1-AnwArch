@@ -17,7 +17,7 @@ const NavBar = (props) => {
                     alt="home logo"
                 />HOME
             </Navbar.Brand>
-            <Navbar.Brand href="/">Signed in as: <a href="">{props.loggedinAs}</a></Navbar.Brand>
+            <Navbar.Brand >Signed in as: <a href="">{props.loggedinAs}</a></Navbar.Brand>
             <Navbar.Collapse>
                 <Navbar.Text className="ml-auto">
                     <a href="/login">Logout</a>

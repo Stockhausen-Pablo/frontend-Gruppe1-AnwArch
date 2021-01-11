@@ -10,6 +10,7 @@ export const topicActions = {
     delete: _delete
 };
 
+
 function register(topic) {
     return dispatch => {
         dispatch(request(topic));
@@ -17,7 +18,7 @@ function register(topic) {
         topicService.register(topic)
             .then(
                 topic => {
-                    dispatch(success());
+                    dispatch(success(topic));
                     history.push('/');
                     dispatch(alertActions.success('Creating Topic successful'));
                 },
@@ -40,7 +41,7 @@ function getAll() {
 
         topicService.getAll()
             .then(
-                topics => dispatch(success(topic)),
+                topics => dispatch(success(topics)),
                 error => dispatch(failure(error.toString()))
             );
     };

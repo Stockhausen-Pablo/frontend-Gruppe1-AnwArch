@@ -8,6 +8,7 @@ import { topics } from './topics.reducer';
 import { posts } from './posts.reducer';
 import { alert } from './alert.reducer';
 
+
 const rootReducer = combineReducers({
     authentication,
     registration,

@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import {topicActions, postActions} from '../../../actions';
 
 import queryString from "query-string";
+import {topicService} from "../../../services";
 
 class CreateTopicPage extends React.Component {
 
@@ -26,7 +27,8 @@ class CreateTopicPage extends React.Component {
                 topic_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 topic_cat: cat_id,
                 topic_by: loggedin_user.user_id,
-                topic_content:''
+                topic_content: '',
+                topic_views: 0
             },
             submitted: false
         };
@@ -48,11 +50,10 @@ class CreateTopicPage extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-
         this.setState({ submitted: true });
         const { topic } = this.state;
         if (topic.topic_subject) {
-            this.props.topic_register(topic);
+            this.props.register(topic);
         }
     }
 
@@ -95,11 +96,11 @@ class CreateTopicPage extends React.Component {
 
 function mapState(state) {
     const { registering } = state.registration;
-    return { registering };
+    return { registering};
 }
 
 const actionCreators = {
-    topic_register: topicActions.register
+    register: topicActions.register
 }
 
 const connectedCreateTopicPage = connect(mapState, actionCreators)(CreateTopicPage);

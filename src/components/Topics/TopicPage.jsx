@@ -1,13 +1,22 @@
 import React, {useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
-import {topicActions, userActions} from '../../actions';
+import Paper from '@material-ui/core/Paper';
+import TableRow from "@material-ui/core/TableRow";
+import TableHead from "@material-ui/core/TableHead";
+import TableContainer from "@material-ui/core/TableContainer";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import {postActions, topicActions, userActions} from '../../actions';
+import { DataGrid } from '@material-ui/data-grid';
 
 import NavBar from '../NavBar/NavBar';
 import TopicCard from "../ContentCard/TopicCard/TopicCard";
+import TableCell from "@material-ui/core/TableCell";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import queryString from 'query-string';
 
 
 class TopicPage extends React.Component {
@@ -25,13 +34,39 @@ class TopicPage extends React.Component {
         this.cT_cat_id = cat_id;
         this.props.getUsers();
         this.props.getTopics(cat_id);
+        this.props.getPosts();
     }
 
+    handleLastPost(posts, topic, users){
+        let filteredpost = posts.items.filter(post => post.post_topic === topic.topic_id)
+                                        .filter(
+                                            post => {
+                                                var d = new Date (post.post_date);
+                                                return d.getTime() === new Date(Math.max.apply(null, posts.items.map(post => {
+                                                    return new Date(post.post_date)
+                                                }))).getTime()})
+        if (filteredpost.length === 0){
+            let last_user = users.items.filter(user => user.user_id === topic.topic_by)[0].user_name;
+            let last_post = topic.topic_date;
+            return {user: last_user, post: last_post};
+        }else{
+            let last_user = users.items.filter(user => user.user_id === filteredpost[0].post_by)[0].user_name;
+            let last_post = filteredpost[0].post_date;
+            return {user: last_user, post: last_post};
+        }
+    }
+
+    formatDate(date){
+        var d = new Date(date);
+        d = d.toISOString().split('T')[0];
+        return d;
+    }
 
     render() {
 
         const { topics } = this.props;
         const { user, users} = this.props;
+        const { posts } = this.props;
 
         return (
             <div className="container">
@@ -44,19 +79,42 @@ class TopicPage extends React.Component {
                         </Button>
                     </a>
                 </h3>
+                <p></p>
                 {topics.loading && <em>Loading topics...</em>}
                 {topics.error && <span className="text-danger">ERROR: {topics.error}</span>}
-                {topics.items && users.items &&
-                <ul type='none' >
-                    {topics.items.map((topic, index) =>
-                        <li key={topic.topic_id}>
-                            <p/>
-                            <a href={"/categories/" + topic.topic_id} style={{ textDecoration: 'none' }}>
-                                <TopicCard topicSubject={topic.topic_subject} topicDate={topic.topic_date} topicBy={users.items.filter(user => user.user_id === topic.topic_by)[0].user_name}/>
-                            </a>
-                        </li>
-                    )}
-                </ul>
+                {topics.items && users.items && posts.items &&
+                <TableContainer component={Paper}>
+                    <Table size="medium" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{width: 400}}>Title</TableCell>
+                                <TableCell align="right" style={{width: 150}}>Replies</TableCell>
+                                <TableCell align="right" style={{width: 150}}>Views</TableCell>
+                                <TableCell align="right">Last post</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {topics.items.map((topic, index) =>
+                            <TableRow key={topic.topic_id} border-spacing={0}>
+                                <TableCell component="th" scope="row">
+                                    <a  href={"/categories/" + topic.topic_id}>
+                                    <b>{topic.topic_subject}</b>
+                                    </a>
+                                    <p>by: <a href={"/users/" + topic.topic_by}>{users.items.filter(user => user.user_id === topic.topic_by)[0].user_name}</a></p>
+                                </TableCell>
+                                <TableCell align="right">{posts.items.filter(post => post.post_topic === topic.topic_id).length}</TableCell>
+                                <TableCell align="right">{topic.topic_views}</TableCell>
+                                <TableCell align="right">
+                                    by: {this.handleLastPost(posts,topic,users).user}
+                                    <p>
+                                        {this.formatDate(this.handleLastPost(posts,topic,users).post)}
+                                    </p>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
                 }
 
             </div>
@@ -66,15 +124,17 @@ class TopicPage extends React.Component {
 
 
 function mapState(state) {
-    const {topics } = state;
+    const { topics } = state;
+    const { posts } = state;
     const { users, authentication } = state;
     const { user, } = authentication;
-    return { user, users, topics};
+    return { user, users, topics, posts};
 }
 
 const actionCreators = {
     getUsers: userActions.getAll,
-    getTopics: topicActions.getAllbyID
+    getTopics: topicActions.getAllbyID,
+    getPosts: postActions.getAll,
 }
 
 const connectedTopicPage = connect(mapState, actionCreators)(TopicPage);

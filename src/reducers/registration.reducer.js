@@ -11,7 +11,10 @@ export function registration(state = {}, action) {
         case topicConstants.REGISTER_REQUEST:
             return { registering: true };
         case topicConstants.REGISTER_SUCCESS:
-            return {};
+            console.log(action.topic); // getting undefined
+            return {
+                items: action.topic
+            };
         case topicConstants.REGISTER_FAILURE:
             return {};
         default:
