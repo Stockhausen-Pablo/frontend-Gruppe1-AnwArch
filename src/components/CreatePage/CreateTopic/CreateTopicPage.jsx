@@ -9,6 +9,7 @@ import {topicActions, postActions} from '../../../actions';
 
 import queryString from "query-string";
 import {topicService} from "../../../services";
+import Button from "@material-ui/core/Button";
 
 class CreateTopicPage extends React.Component {
 
@@ -20,6 +21,8 @@ class CreateTopicPage extends React.Component {
 
         const value=queryString.parse(this.props.location.search);
         const cat_id=value.cat_id;
+
+        //this.cT_cat_id = cat_id;
 
         this.state = {
             topic: {
@@ -63,7 +66,7 @@ class CreateTopicPage extends React.Component {
         const { topic, submitted } = this.state;
 
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div className="col-md-6 col-md-offset-3" style={{paddingBottom: 20}}>
                 <h2>Create Topic</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !topic.topic_subject ? ' has-error' : '')}>

@@ -17,7 +17,7 @@ class OverviewUsers extends React.Component {
     render() {
         const { user, users } = this.props;
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div className="col-md-6 col-md-offset-3" style={{paddingBottom: 20}}>
                 <h1>Currently logged in as  {user.user_name}!</h1>
                 <p>Overview of all registered users</p>
                 <h3>All registered users:</h3>

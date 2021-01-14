@@ -20,7 +20,7 @@ class HomePage extends React.Component {
         const { user, users } = this.props;
 
         return (
-            <div className="container">
+            <div className="container" style={{paddingBottom: 20}}>
                 <NavBar loggedinAs={user.user_name}/>
                 <h1>Gruppe 1 - Webforum</h1>
                 <h3>Categories:</h3>

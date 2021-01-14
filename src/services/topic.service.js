@@ -6,10 +6,29 @@ import {userService} from './';
 export const topicService = {
     getAll,
     getAllbyID,
+    getById,
+    increment,
     register,
     delete: _delete
 };
 
+function getById(topicId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`${config.apiUrl}/topics/findOne/${topicId}`, requestOptions).then(handleResponse);
+}
+
+function increment(topicId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: authHeader()
+    };
+
+    return fetch(`${config.apiUrl}/topics/increment/${topicId}`, requestOptions).then(handleResponse);
+}
 
 function getAll() {
     const requestOptions = {

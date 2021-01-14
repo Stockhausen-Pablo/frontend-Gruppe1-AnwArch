@@ -62,14 +62,26 @@ class TopicPage extends React.Component {
         return d;
     }
 
+    formatTime(date){
+        var d = new Date(date);
+        var time = d.toLocaleTimeString();
+        return time;
+    }
+
+    handleIncrementViews(id){
+        return (e) => this.props.incrementViews(id);
+    }
+
     render() {
 
         const { topics } = this.props;
         const { user, users} = this.props;
         const { posts } = this.props;
 
+        console.log(topics);
+
         return (
-            <div className="container">
+            <div className="container" style={{paddingBottom: 20}}>
                 <NavBar loggedinAs={user.user_name}/>
                 <h1>Gruppe 1 - Webforum</h1>
                 <h3>Topics :
@@ -94,21 +106,25 @@ class TopicPage extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {topics.items.map((topic, index) =>
+                        {topics.items.sort((a,b) => {
+                            return new Date(a.topic_date).getTime() - new Date(b.topic_date).getTime()}).reverse().map((topic, index) =>
                             <TableRow key={topic.topic_id} border-spacing={0}>
                                 <TableCell component="th" scope="row">
-                                    <a  href={"/categories/" + topic.topic_id}>
+                                    <a  href={"/topics?cat_id=" + this.cT_cat_id + "&topic_id=" + topic.topic_id} onClick={this.handleIncrementViews(topic.topic_id)}>
                                     <b>{topic.topic_subject}</b>
                                     </a>
-                                    <p>by: <a href={"/users/" + topic.topic_by}>{users.items.filter(user => user.user_id === topic.topic_by)[0].user_name}</a></p>
+                                    <p>by: <a href={"/users?user_id=" + topic.topic_by}>{users.items.filter(user => user.user_id === topic.topic_by)[0].user_name}</a></p>
                                 </TableCell>
                                 <TableCell align="right">{posts.items.filter(post => post.post_topic === topic.topic_id).length}</TableCell>
                                 <TableCell align="right">{topic.topic_views}</TableCell>
                                 <TableCell align="right">
                                     by: {this.handleLastPost(posts,topic,users).user}
-                                    <p>
+                                    <div>
                                         {this.formatDate(this.handleLastPost(posts,topic,users).post)}
-                                    </p>
+                                        <p>
+                                            {this.formatTime(this.handleLastPost(posts,topic,users).post)}
+                                        </p>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         )}
@@ -135,6 +151,7 @@ const actionCreators = {
     getUsers: userActions.getAll,
     getTopics: topicActions.getAllbyID,
     getPosts: postActions.getAll,
+    incrementViews: topicActions.increment
 }
 
 const connectedTopicPage = connect(mapState, actionCreators)(TopicPage);

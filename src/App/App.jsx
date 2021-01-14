@@ -13,6 +13,7 @@ import { LoginPage } from '../components/UserIdentity/LoginPage';
 import { RegisterPage } from '../components/UserIdentity/RegisterPage';
 import { TopicPage } from '../components/Topics/TopicPage';
 import {CreateTopicPage} from "../components/CreatePage/CreateTopic";
+import {PostPage} from "../components/Posts";
 
 class App extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class App extends React.Component {
         const { alert } = this.props;
         return (
             <div>
-                <div className="container">
+                <div className="container" style={{paddingBottom: 20}}>
                     <div>
                         {alert.message &&
                         <div className={`alert ${alert.type}`}>{alert.message}</div>
@@ -40,6 +41,7 @@ class App extends React.Component {
                                 <PrivateRoute exact path="/overview" component={OverviewUsers} />
                                 <PrivateRoute exact path="/categories" component={TopicPage} />
                                 <PrivateRoute exact path="/create-Topic" component={CreateTopicPage} />
+                                <PrivateRoute exact path="/topics" component={PostPage} />
                                 <Route path="/login" component={LoginPage} />
                                 <Route path="/register" component={RegisterPage} />
                                 <Redirect from="*" to="/" />

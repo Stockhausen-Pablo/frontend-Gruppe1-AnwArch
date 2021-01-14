@@ -27,7 +27,7 @@ function getAllbyID(id) {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/topics/all/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/posts/all/${id}`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {

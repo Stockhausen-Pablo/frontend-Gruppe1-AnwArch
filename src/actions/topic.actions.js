@@ -7,6 +7,8 @@ export const topicActions = {
     register,
     getAll,
     getAllbyID,
+    increment,
+    getById,
     delete: _delete
 };
 
@@ -58,9 +60,7 @@ function getAllbyID(id) {
 
         topicService.getAllbyID(id)
             .then(
-                topics => dispatch(success(topics.sort((a,b) => {
-                    return new Date(a.topic_date).getTime() - new Date(b.topic_date).getTime()}).reverse()
-                )),
+                topics => dispatch(success(topics)),
                 error => dispatch(failure(error.toString()))
             );
     };
@@ -70,6 +70,38 @@ function getAllbyID(id) {
     function failure(error) { return { type: topicConstants.GETALLBYID_FAILURE, error } }
 }
 
+function getById(topicId) {
+
+    return dispatch => {
+        dispatch(request(topicId));
+
+        topicService.getById(topicId)
+            .then(
+                topic => dispatch(success(topic)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(topicId) { return { type: topicConstants.GETBYID_REQUEST, topicId} }
+    function success(topic) { return { type: topicConstants.GETBYID_SUCCESS, topic } }
+    function failure(error) { return { type: topicConstants.GETBYID_FAILURE, error } }
+}
+
+function increment(id){
+    return dispatch => {
+        dispatch(request(id));
+
+        topicService.increment(id)
+            .then(
+                topic => dispatch(success(id)),
+                error => dispatch(failure(id, error.toString()))
+            );
+    };
+
+    function request() { return { type: topicConstants.INCREMENT_REQUEST, } }
+    function success(id) { return { type: topicConstants.INCREMENT_SUCCESS, id } }
+    function failure(error) { return { type: topicConstants.INCREMENT_FAILURE, error } }
+}
 
 function _delete(id) {
     return dispatch => {

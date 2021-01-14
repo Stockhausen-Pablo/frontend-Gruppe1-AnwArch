@@ -1,4 +1,4 @@
-import { topicConstants } from '../constants';
+import {topicConstants} from '../constants';
 
 export function topics(state = {}, action) {
     switch (action.type) {
@@ -23,6 +23,30 @@ export function topics(state = {}, action) {
                 items: action.topics
             };
         case topicConstants.GETALLBYID_FAILURE:
+            return {
+                error: action.error
+            };
+        case topicConstants.INCREMENT_REQUEST:
+            return {
+              loading: true
+            };
+        case topicConstants.INCREMENT_SUCCESS:
+            return {
+                items: action.topic
+            };
+        case topicConstants.INCREMENT_FAILURE:
+            return {
+                error: action.error
+            };
+        case topicConstants.GETBYID_REQUEST:
+            return {
+                loading: true
+            };
+        case topicConstants.GETBYID_SUCCESS:
+            return {
+                items: action.topic
+            };
+        case topicConstants.GETBYID_FAILURE:
             return {
                 error: action.error
             };
