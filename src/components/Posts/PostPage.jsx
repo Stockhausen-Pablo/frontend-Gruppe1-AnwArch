@@ -1,5 +1,5 @@
 import React from "react";
-import {postActions, topicActions, userActions} from "../../actions";
+import {categoryActions, postActions, topicActions, userActions} from "../../actions";
 import {connect} from "react-redux";
 import queryString from "query-string";
 import NavBar from "../NavBar/NavBar";
@@ -11,6 +11,7 @@ import {CreatePostCard} from "../ContentCard/CreatePostCard/CreatePostCard";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
+import BreadcrumbNav from "../BreadcrumbNav/BreadcrumbNav";
 
 
 class PostPage extends React.Component {
@@ -49,6 +50,7 @@ class PostPage extends React.Component {
         this.props.getUsers();
         this.props.getPosts(topic_id);
         this.props.getTopic(topic_id);
+        this.props.getCategories();
     }
 
     handleChange(event) {
@@ -60,7 +62,6 @@ class PostPage extends React.Component {
                 [name]: value
             }
         });
-        console.log(post);
     }
 
     handleSubmit(event) {
@@ -85,6 +86,7 @@ class PostPage extends React.Component {
 
         const { user, users} = this.props;
         const { topics } = this.props;
+        const { categories } = this.props;
         const { posts } = this.props;
 
         return (
@@ -98,6 +100,15 @@ class PostPage extends React.Component {
                         </Button>
                     </a>
                 </h3>
+                {categories.items && topics.items &&
+                <BreadcrumbNav
+                    cat_id={this.cT_cat_id}
+                    cat_name={categories.items.filter(item => item.cat_id === parseInt(this.cT_cat_id, 10))[0].cat_name}
+                    topic_id={topics.items.topic_id}
+                    topic_subject={topics.items.topic_subject}
+                >
+                </BreadcrumbNav>
+                }
                 <p></p>
                 {posts.loading && <em>Loading topics...</em>}
                 {posts.error && <span className="text-danger">ERROR: {posts.error}</span>}
@@ -137,18 +148,20 @@ class PostPage extends React.Component {
 }
 
 function mapState(state) {
+    const {categories } = state;
     const { topics } = state;
     const { posts} = state;
     const { registering } = state.registration;
     const { users, authentication } = state;
     const { user } = authentication;
-    return { user, topics, users, posts, registering};
+    return { user, topics, users, posts, categories, registering};
 }
 
 const actionCreators = {
     getUsers: userActions.getAll,
     getPosts: postActions.getAllbyID,
     getTopic: topicActions.getById,
+    getCategories: categoryActions.getAll,
     register: postActions.register
 }
 

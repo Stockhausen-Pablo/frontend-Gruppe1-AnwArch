@@ -9,13 +9,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
-import {postActions, topicActions, userActions} from '../../actions';
+import {categoryActions, postActions, topicActions, userActions} from '../../actions';
 import { DataGrid } from '@material-ui/data-grid';
 
 import NavBar from '../NavBar/NavBar';
 import TopicCard from "../ContentCard/TopicCard/TopicCard";
 import TableCell from "@material-ui/core/TableCell";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import BreadcrumbNav from "../BreadcrumbNav/BreadcrumbNav";
 
 
 
@@ -35,6 +36,7 @@ class TopicPage extends React.Component {
         this.props.getUsers();
         this.props.getTopics(cat_id);
         this.props.getPosts();
+        this.props.getCategories();
     }
 
     handleLastPost(posts, topic, users){
@@ -77,8 +79,7 @@ class TopicPage extends React.Component {
         const { topics } = this.props;
         const { user, users} = this.props;
         const { posts } = this.props;
-
-        console.log(topics);
+        const { categories } = this.props;
 
         return (
             <div className="container" style={{paddingBottom: 20}}>
@@ -91,6 +92,9 @@ class TopicPage extends React.Component {
                         </Button>
                     </a>
                 </h3>
+                {categories.items &&
+                <BreadcrumbNav cat_id={this.cT_cat_id} cat_name={categories.items.filter(item => item.cat_id === parseInt(this.cT_cat_id, 10))[0].cat_name}></BreadcrumbNav>
+                }
                 <p></p>
                 {topics.loading && <em>Loading topics...</em>}
                 {topics.error && <span className="text-danger">ERROR: {topics.error}</span>}
@@ -140,17 +144,19 @@ class TopicPage extends React.Component {
 
 
 function mapState(state) {
+    const {categories} = state;
     const { topics } = state;
     const { posts } = state;
     const { users, authentication } = state;
     const { user, } = authentication;
-    return { user, users, topics, posts};
+    return { user, users, topics, posts, categories};
 }
 
 const actionCreators = {
     getUsers: userActions.getAll,
     getTopics: topicActions.getAllbyID,
     getPosts: postActions.getAll,
+    getCategories: categoryActions.getAll,
     incrementViews: topicActions.increment
 }
 

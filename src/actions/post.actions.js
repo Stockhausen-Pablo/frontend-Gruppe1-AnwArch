@@ -20,7 +20,7 @@ function register(post) {
             .then(
                 post => {
                     dispatch(success());
-                    history.push('/');
+                    history.goBack();
                     dispatch(alertActions.success('post Registration successful'));
                 },
                 error => {

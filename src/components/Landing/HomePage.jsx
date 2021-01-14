@@ -7,6 +7,7 @@ import { categoryActions } from '../../actions';
 
 import NavBar from '../NavBar/NavBar';
 import CategoryCard from '../ContentCard/CategoryCard/CategoryCard';
+import BreadcrumbNav from "../BreadcrumbNav/BreadcrumbNav";
 
 class HomePage extends React.Component {
 
@@ -24,6 +25,7 @@ class HomePage extends React.Component {
                 <NavBar loggedinAs={user.user_name}/>
                 <h1>Gruppe 1 - Webforum</h1>
                 <h3>Categories:</h3>
+                <BreadcrumbNav></BreadcrumbNav>
                 {categories.loading && <em>Loading categories...</em>}
                 {categories.error && <span className="text-danger">ERROR: {categories.error}</span>}
                 {categories.items &&

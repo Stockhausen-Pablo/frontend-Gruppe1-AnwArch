@@ -21,7 +21,7 @@ function register(topic) {
             .then(
                 topic => {
                     dispatch(success(topic));
-                    history.push('/');
+                    history.goBack();
                     dispatch(alertActions.success('Creating Topic successful'));
                 },
                 error => {
