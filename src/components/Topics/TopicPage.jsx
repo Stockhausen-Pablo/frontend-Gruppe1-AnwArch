@@ -29,10 +29,15 @@ class TopicPage extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const value=queryString.parse(this.props.location.search);
         const cat_id=value.cat_id;
         this.cT_cat_id = cat_id;
+    }
+
+    componentDidMount() {
+        const value=queryString.parse(this.props.location.search);
+        const cat_id=value.cat_id;
         this.props.getUsers();
         this.props.getTopics(cat_id);
         this.props.getPosts();
@@ -74,6 +79,26 @@ class TopicPage extends React.Component {
         return (e) => this.props.incrementViews(id);
     }
 
+    filterAfterLastPost(topics, posts){
+        var sorted_posts = posts.items.sort((a,b) => {
+            return new Date(a.post_date).getTime() - new Date(b.post_date).getTime()}).reverse();
+
+        for(;;){
+           topics.items.map(topic => {
+               var filtered_posts_date = posts.items.filter(post => post.post_topic === topic.topic_id)[0].post_date;
+                console.log(filtered_posts_date);
+
+               }
+           )
+            break;
+        }
+
+        console.log(topics);
+
+        //console.log(sorted_posts);
+        //console.log(topics);
+    }
+
     render() {
 
         const { topics } = this.props;
@@ -81,13 +106,14 @@ class TopicPage extends React.Component {
         const { posts } = this.props;
         const { categories } = this.props;
 
+
         return (
             <div className="container" style={{paddingBottom: 20}}>
                 <NavBar loggedinAs={user.user_name}/>
                 <h1>Gruppe 1 - Webforum</h1>
                 <h3>Topics :
                     <a>
-                        <Button variant="danger" style={{float: 'right'}} onClick={() => {this.props.history.push('/create-Topic?cat_id='+this.cT_cat_id)}}>
+                        <Button variant="primary" style={{float: 'right'}} onClick={() => {this.props.history.push('/create-Topic?cat_id='+this.cT_cat_id)}}>
                             Create Topic
                         </Button>
                     </a>
