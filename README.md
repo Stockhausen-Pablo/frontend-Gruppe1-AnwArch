@@ -1,3 +1,7 @@
+
+This project was developed in the context of the course "Development of Web Applications and Architectures" in the winter semester 2020/21 of the Brandenburg University of Applied Sciences. The project was developed by Pablo Stockhausen and Paul Saalfrank.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
