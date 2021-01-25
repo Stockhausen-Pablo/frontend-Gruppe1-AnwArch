@@ -79,19 +79,19 @@ function getAll() {
     function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
 }
 
-function getById(id) {
+function getById(user_id) {
 
     return dispatch => {
-        dispatch(request());
+        dispatch(request(user_id));
 
-        userService.getById(id)
+        userService.getById(user_id)
             .then(
                 user => dispatch(success(user)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request() { return { type: userConstants.GETBYID_REQUEST} }
+    function request(user_id) { return { type: userConstants.GETBYID_REQUEST, user_id} }
     function success(user) { return { type: userConstants.GETBYID_SUCCESS, user } }
     function failure(error) { return { type: userConstants.GETBYID_FAILURE, error } }
 }

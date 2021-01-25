@@ -54,12 +54,14 @@ class TopicPage extends React.Component {
                                                 }))).getTime()})
         if (filteredpost.length === 0){
             let last_user = users.items.filter(user => user.user_id === topic.topic_by)[0].user_name;
+            let last_user_id = users.items.filter(user => user.user_id === topic.topic_by)[0].user_id;
             let last_post = topic.topic_date;
-            return {user: last_user, post: last_post};
+            return {user: last_user, post: last_post, userId: last_user_id};
         }else{
             let last_user = users.items.filter(user => user.user_id === filteredpost[0].post_by)[0].user_name;
+            let last_user_id = users.items.filter(user => user.user_id === topic.topic_by)[0].user_id;
             let last_post = filteredpost[0].post_date;
-            return {user: last_user, post: last_post};
+            return {user: last_user, post: last_post, userId: last_user_id};
         }
     }
 
@@ -148,7 +150,7 @@ class TopicPage extends React.Component {
                                 <TableCell align="right">{posts.items.filter(post => post.post_topic === topic.topic_id).length}</TableCell>
                                 <TableCell align="right">{topic.topic_views}</TableCell>
                                 <TableCell align="right">
-                                    by: {this.handleLastPost(posts,topic,users).user}
+                                    by: <a href={"/users?user_id=" + this.handleLastPost(posts,topic,users).userId}>{this.handleLastPost(posts,topic,users).user}</a>
                                     <div>
                                         {this.formatDate(this.handleLastPost(posts,topic,users).post)}
                                         <p>

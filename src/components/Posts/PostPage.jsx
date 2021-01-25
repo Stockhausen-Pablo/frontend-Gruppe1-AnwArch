@@ -93,13 +93,7 @@ class PostPage extends React.Component {
             <div className="container" style={{paddingBottom: 20}}>
                 <NavBar loggedinAs={user.user_name}/>
                 <h1>Gruppe 1 - Webforum</h1>
-                <h3>Posts :
-                    <a>
-                        <Button variant="danger" style={{float: 'right'}} >
-                            Reply to Post
-                        </Button>
-                    </a>
-                </h3>
+                <h3>Posts :</h3>
                 {categories.items && topics.items &&
                 <BreadcrumbNav
                     cat_id={this.cT_cat_id}
@@ -118,7 +112,7 @@ class PostPage extends React.Component {
                     {posts.items.map((post, index) =>
                         <li key={post.post_id}>
                              <p></p>
-                             <PostCard postBy={users.items.filter(user => user.user_id === post.post_by)[0].user_name} topicId={this.cT_topic_id} postContent={post.post_content}/>
+                             <PostCard postBy={users.items.filter(user => user.user_id === post.post_by)[0].user_name} topicId={this.cT_topic_id} postContent={post.post_content} postDate={post.post_date}/>
                         </li>
                     )}
                     <form name="form" onSubmit={this.handleSubmit}>

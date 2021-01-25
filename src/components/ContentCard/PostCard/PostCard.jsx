@@ -10,6 +10,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import {getDateOperators} from "@material-ui/data-grid";
 
 const useStyles = makeStyles({
     root: {
@@ -25,6 +26,14 @@ const useStyles = makeStyles({
         backgroundColor: red[500],
     },
 });
+
+const formatDate = (postDate) => {
+    var d = new Date(postDate);
+    var d_date = d.toISOString().split('T')[0];
+    var d_time = d.toLocaleTimeString();
+
+    return d_date + " | " + d_time;
+}
 
 export default function PostCard(props) {
     const classes = useStyles();
@@ -44,7 +53,7 @@ export default function PostCard(props) {
                     </IconButton>
                 }
                 title={props.postBy}
-                subheader= {props.postDate}
+                subheader= {formatDate(props.postDate)}
             />
             <CardContent>
                 <Typography variant="h5" component="h2">

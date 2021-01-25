@@ -15,6 +15,7 @@ import { TopicPage } from '../components/Topics/TopicPage';
 import {CreateTopicPage} from "../components/CreatePage/CreateTopic";
 import {PostPage} from "../components/Posts";
 import {UserProfilePage} from "../components/UserProfile/UserProfilePage";
+import {StrangerProfilePage} from "../components/UserProfile/StrangerProfilePage";
 
 class App extends React.Component {
     constructor(props) {
@@ -44,6 +45,7 @@ class App extends React.Component {
                                 <PrivateRoute exact path="/create-Topic" component={CreateTopicPage} />
                                 <PrivateRoute exact path="/topics" component={PostPage} />
                                 <PrivateRoute exact path="/profile" component={UserProfilePage} />
+                                <PrivateRoute exact path="/users" component={StrangerProfilePage} />
                                 <Route path="/login" component={LoginPage} />
                                 <Route path="/register" component={RegisterPage} />
                                 <Redirect from="*" to="/" />

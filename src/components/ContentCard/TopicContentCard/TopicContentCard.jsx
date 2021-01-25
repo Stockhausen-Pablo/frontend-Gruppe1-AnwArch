@@ -26,6 +26,14 @@ const useStyles = makeStyles({
     },
 });
 
+const formatDate = (postDate) => {
+    var d = new Date(postDate);
+    var d_date = d.toISOString().split('T')[0];
+    var d_time = d.toLocaleTimeString();
+
+    return d_date + " | " + d_time;
+}
+
 export default function TopicContentCard(props) {
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
@@ -39,7 +47,7 @@ export default function TopicContentCard(props) {
                     </Avatar>
                 }
                 title={props.topicBy + " | Topic Creator"}
-                subheader= {props.topicDate}
+                subheader= {formatDate(props.topicDate)}
             />
             <CardContent>
                 <Typography variant="h5" component="h2">

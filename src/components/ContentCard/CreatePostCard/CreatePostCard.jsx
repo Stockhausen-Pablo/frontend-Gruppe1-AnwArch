@@ -44,9 +44,6 @@ const handleSubmit = (event, props) => {
 
 function CreatePostCard(props) {
 
-   //const user_id = props.postBy;
-   //const topic_id = props.topicId;
-
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
 

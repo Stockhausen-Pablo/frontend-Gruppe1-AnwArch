@@ -20,8 +20,7 @@ export function users(state = {}, action) {
             };
         case userConstants.GETBYID_SUCCESS:
             return {
-                ...state,
-                item: action.payload
+                item: action.user
             };
         case userConstants.GETBYID_FAILURE:
             return {
